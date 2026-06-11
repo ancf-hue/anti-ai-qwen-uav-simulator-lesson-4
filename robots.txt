@@ -1,0 +1,20 @@
+# robots.txt для Anti-AI Qwen UAV Simulator — Урок 4
+# Разрешает индексацию всего сайта, кроме служебных страниц
+
+User-agent: *
+Allow: /
+
+# Запрещаем индексацию служебных файлов (если появятся в будущем)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /logs/
+Disallow: /*.json$
+Disallow: /*.mp3$
+
+# Указываем путь к карте сайта
+Sitemap: https://anti-ai-qwen-uav-simulator-lesson-4.vercel.app/sitemap.xml
+
+# Оптимизация для поисковых роботов
+Host: https://anti-ai-qwen-uav-simulator-lesson-4.vercel.app
+Crawl-delay: 5
