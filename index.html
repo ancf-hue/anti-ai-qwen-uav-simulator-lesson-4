@@ -26,6 +26,22 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
 @keyframes titlePulse{ 0%, 100%{ opacity: 1; transform: scale(1);} 50%{ opacity: 0.9; transform: scale(1.02);}}
 .intro-subtitle{ margin-top: 10px; font-size: 20px; color:#ffd700; text-align: center; letter-spacing: 5px; text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);}
 .intro-desc{ margin-top: 20px; max-width: 600px; text-align: center; color:#b0d4e8; font-size: 14px; line-height: 1.6; padding: 0 20px;}
+
+.difficulty-selector{ margin-top: 30px; display: flex; gap: 20px; align-items: center; justify-content: center;}
+.difficulty-label{ color:#b0d4e8; font-size: 14px; font-weight: bold; letter-spacing: 1px;}
+.difficulty-buttons{ display: flex; gap: 15px;}
+.difficulty-btn{ width: 60px; height: 60px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; transition: all 0.3s ease; position: relative; box-shadow: 0 4px 15px rgba(0,0,0,0.3);}
+.difficulty-btn::before{ content:''; position: absolute; inset: -5px; border-radius: 50%; background: inherit; opacity: 0; transition: opacity 0.3s; filter: blur(10px);}
+.difficulty-btn:hover::before{ opacity: 0.5;}
+.difficulty-btn:hover{ transform: scale(1.1);}
+.difficulty-btn.selected{ border-color: white; transform: scale(1.15); box-shadow: 0 0 30px currentColor;}
+.difficulty-btn.easy{ background: #48bb78; color: #48bb78;}
+.difficulty-btn.medium{ background: #ecc94b; color: #ecc94b;}
+.difficulty-btn.hard{ background: #e53e3e; color: #e53e3e;}
+
+.difficulty-info{ margin-top: 15px; text-align: center; color:#b0d4e8; font-size: 12px; min-height: 40px;}
+.difficulty-info .level-name{ font-size: 16px; font-weight: bold; margin-bottom: 5px;}
+
 .start-btn{ margin-top: 30px; padding: 18px 60px; font-size: 20px; font-weight: bold; background: linear-gradient(145deg,#87ceeb,#4682b4); border: none; border-radius: 50px; color: white; cursor: pointer; box-shadow: 0 8px 0 #2f4f4f, 0 15px 30px rgba(135, 206, 235, 0.6); transition: all 0.2s; text-transform: uppercase; letter-spacing: 2px;}
 .start-btn:hover{ transform: translateY(-3px); box-shadow: 0 11px 0 #2f4f4f, 0 20px 40px rgba(135, 206, 235, 0.8);}
 .start-btn:active{ transform: translateY(5px); box-shadow: 0 3px 0 #2f4f4f, 0 8px 15px rgba(135, 206, 235, 0.6);}
@@ -75,14 +91,17 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
 #notification.hit{ background: linear-gradient(135deg,#ff6600,#ff3300); box-shadow: 0 8px 25px rgba(255, 102, 0, 0.5);}
 #notification.info{ background: linear-gradient(135deg,#8888ff,#5555cc); box-shadow: 0 8px 25px rgba(136, 136, 255, 0.5);}
 
-.victory-modal{ position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.5s ease;}
-.victory-modal.show{ opacity: 1; visibility: visible;}
-.victory-content{ background: linear-gradient(135deg,#1e3a5f,#0a1628); border-radius: 30px; padding: 50px; text-align: center; border: 2px solid #ffd700; box-shadow: 0 0 80px rgba(255, 215, 0, 0.5); animation: victoryGlow 1s ease-in-out infinite; max-width: 500px; margin: 20px;}
-@keyframes victoryGlow{ 0%, 100%{ box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);} 50%{ box-shadow: 0 0 80px rgba(255, 215, 0, 0.8);}}
-.victory-content h2{ font-size: 48px; color:#ffd700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px;}
-.victory-content p{ font-size: 18px; color:#ccffcc; margin: 20px 0; line-height: 1.6;}
-.victory-stats{ background: rgba(0, 0, 0, 0.5); border-radius: 20px; padding: 20px; margin: 20px 0; font-size: 20px;}
-.victory-stats span{ color:#ffd700; font-size: 32px; font-weight: bold;}
+.result-modal{ position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px); z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.5s ease;}
+.result-modal.show{ opacity: 1; visibility: visible;}
+.result-content{ background: linear-gradient(135deg,#1e3a5f,#0a1628); border-radius: 30px; padding: 50px; text-align: center; border: 2px solid #ffd700; box-shadow: 0 0 80px rgba(255, 215, 0, 0.5); animation: resultGlow 1s ease-in-out infinite; max-width: 500px; margin: 20px;}
+.result-content.defeat{ border-color: #e53e3e; box-shadow: 0 0 80px rgba(229, 62, 62, 0.5); animation: defeatGlow 1s ease-in-out infinite;}
+@keyframes resultGlow{ 0%, 100%{ box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);} 50%{ box-shadow: 0 0 80px rgba(255, 215, 0, 0.8);}}
+@keyframes defeatGlow{ 0%, 100%{ box-shadow: 0 0 40px rgba(229, 62, 62, 0.3);} 50%{ box-shadow: 0 0 80px rgba(229, 62, 62, 0.8);}}
+.result-content h2{ font-size: 48px; color:#ffd700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px;}
+.result-content.defeat h2{ color:#ff6666;}
+.result-content p{ font-size: 18px; color:#ccffcc; margin: 20px 0; line-height: 1.6;}
+.result-stats{ background: rgba(0, 0, 0, 0.5); border-radius: 20px; padding: 20px; margin: 20px 0; font-size: 20px;}
+.result-stats span{ color:#ffd700; font-size: 32px; font-weight: bold;}
 .restart-game-btn, .exit-game-btn{ border: none; padding: 15px 40px; border-radius: 50px; font-size: 18px; font-weight: bold; color: white; cursor: pointer; margin: 10px; transition: 0.2s;}
 .restart-game-btn{ background: linear-gradient(145deg,#87ceeb,#4682b4); box-shadow: 0 5px 0 #2f4f4f;}
 .exit-game-btn{ background: linear-gradient(145deg,#cc3333,#882222); box-shadow: 0 5px 0 #551111;}
@@ -111,9 +130,10 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
  .logo-sub{ font-size: 9px;}
  .intro-title{ font-size: 28px;}
  .intro-subtitle{ font-size: 14px;}
+ .difficulty-btn{ width: 50px; height: 50px;}
  .start-btn{ padding: 14px 40px; font-size: 16px;}
- .victory-content{ padding: 30px;}
- .victory-content h2{ font-size: 32px;}
+ .result-content{ padding: 30px;}
+ .result-content h2{ font-size: 32px;}
  #resetDroneBtn, #exitMenuBtn{ bottom: 100px; padding: 8px 20px; font-size: 12px;}
  #resetDroneBtn{ left: calc(50% - 120px);}
  #exitMenuBtn{ left: calc(50% + 10px);}
@@ -136,9 +156,24 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
   <div class="intro-subtitle">Qwen · БПЛА ТРЕНАЖЁР · УРОК 4</div>
   <div class="intro-desc">
     Высотный полёт и точное пикирование. Оператор "СОКОЛ" управляет дроном на большой высоте. 
-    Задача — пикировать сверху на 5 наземных целей, точно попадая в узкую зону поражения, 
-    и возвращаться на высоту. У вас <b>3 минуты</b>!
+    Задача — пикировать сверху на наземные цели, точно попадая в узкую зону поражения, 
+    и возвращаться на высоту.
   </div>
+  
+  <div class="difficulty-selector">
+    <div class="difficulty-label">УРОВЕНЬ СЛОЖНОСТИ:</div>
+    <div class="difficulty-buttons">
+      <button class="difficulty-btn easy selected" data-level="easy" title="Лёгкий"></button>
+      <button class="difficulty-btn medium" data-level="medium" title="Средний"></button>
+      <button class="difficulty-btn hard" data-level="hard" title="Сложный"></button>
+    </div>
+  </div>
+  
+  <div class="difficulty-info" id="difficultyInfo">
+    <div class="level-name" style="color:#48bb78;">🟢 ЛЁГКИЙ</div>
+    <div>Время: 4 мин • Целей: 3 • Зона захвата: широкая</div>
+  </div>
+  
   <button class="start-btn" id="startBtn">НАЧАТЬ ПОЛЁТ</button>
 </div>
 
@@ -152,7 +187,7 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
   <div id="stats-panel">
     <div class="stats">
       <div class="stat">🎯 Целей: <span id="hits">0</span></div>
-      <div class="stat">⏱️ Время: <span id="mission-timer">180</span>с</div>
+      <div class="stat">⏱️ Время: <span id="mission-timer">240</span>с</div>
       <div class="stat">📡 Урок 4: Высотный полёт</div>
     </div>
   </div>
@@ -168,7 +203,7 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
 
   <div id="target-panel">
     🎯 ЦЕЛЕЙ УНИЧТОЖЕНО<br>
-    <span id="target-counter">0</span> / 5<br>
+    <span id="target-counter">0</span> / 3<br>
     <span style="font-size:11px;">🎯 Пикируйте в зону поражения</span>
   </div>
 
@@ -191,7 +226,7 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
     🎯 Вход в конус = захват цели
   </div>
 
-  <div class="lesson-badge">📡 ЗАДАНИЕ: Уничтожить 5 целей за 3 минуты</div>
+  <div class="lesson-badge">📡 ЗАДАНИЕ: Уничтожить цели за отведённое время</div>
 
   <button id="resetDroneBtn">🔄 Перезапустить</button>
   <button id="exitMenuBtn">🚪 Выйти в меню</button>
@@ -214,12 +249,12 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
   </div>
 </div>
 
-<div id="victoryModal" class="victory-modal">
-  <div class="victory-content">
+<div id="victoryModal" class="result-modal">
+  <div class="result-content victory">
     <h2>🏆 ПОЛЁТ ЗАВЕРШЁН! 🏆</h2>
     <p>Отличная работа, оператор "СОКОЛ"!<br>Все цели уничтожены!</p>
-    <div class="victory-stats">
-      Уничтожено: <span id="victoryHits">5</span>/5 🎯<br>
+    <div class="result-stats">
+      Уничтожено: <span id="victoryHits">0</span>/<span id="victoryTotal">0</span> 🎯<br>
       Макс. высота: <span id="victoryAltitude">0</span>м 📏<br>
       Время: <span id="victoryTime">0</span>с ⏱️
     </div>
@@ -229,40 +264,74 @@ body{ overflow: hidden; font-family:'Segoe UI','Orbitron', monospace; background
   </div>
 </div>
 
+<div id="defeatModal" class="result-modal">
+  <div class="result-content defeat">
+    <h2>⏰ МИССИЯ ПРОВАЛЕНА ⏰</h2>
+    <p id="defeatMessage">Время вышло! Цели остались нетронутыми.</p>
+    <div class="result-stats">
+      Уничтожено: <span id="defeatHits">0</span>/<span id="defeatTotal">0</span> 🎯<br>
+      Макс. высота: <span id="defeatAltitude">0</span>м 📏<br>
+      Время: <span id="defeatTime">0</span>с ⏱️
+    </div>
+    <p>Не сдавайтесь, СОКОЛ! Попробуйте снова. 🦅</p>
+    <button class="restart-game-btn" id="defeatRestartBtn">🔄 ПОПРОБОВАТЬ СНОВА</button>
+    <button class="exit-game-btn" id="defeatExitBtn">🚪 В МЕНЮ</button>
+  </div>
+</div>
+
 <audio id="bg-music" loop>
   <source src="sokol-theme.mp3" type="audio/mpeg">
 </audio>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-const CONFIG = {
-  DRONE_SPEED: 0.12,
-  DRONE_DRAG: 0.94,
-  MAX_TILT: 0.35,
-  MAX_ALTITUDE: 100,
-  MIN_ALTITUDE: 5,
-  START_ALTITUDE: 50,
-  CLIMB_SPEED: 0.3,
-  DIVE_SPEED: 0.5,
-  HOVER_FREQ: 0.001,
-  COLLISION_FORCE_THRESHOLD: 0.05,
-  CRASH_FORCE_THRESHOLD: 0.15,
-  LIMIT_X: 15,
-  LIMIT_Z: 15,
-  MIN_X: -15,
-  MIN_Z: -15,
-  GROUND_Y: 0,
-  TARGET_COUNT: 5,
-  CAMERA_OFFSET: { x: 0, y: 8, z: 12 },
-  CAMERA_LERP: 0.09,
-  LOW_END_CORES: 4,
-  MAX_PIXEL_RATIO: 2,
-  CAPTURE_TIME: 1500,
-  CAPTURE_CONE_RADIUS: 3,
-  TRAIL_LENGTH: 20,
-  MISSION_TIME: 180,
-  CLOUD_COUNT: 15
+const DIFFICULTY_LEVELS = {
+  easy: {
+    name: '🟢 ЛЁГКИЙ',
+    color: '#48bb78',
+    missionTime: 240,
+    targetCount: 3,
+    droneSpeed: 0.10,
+    droneDrag: 0.95,
+    captureConeRadius: 4,
+    captureTime: 1200,
+    climbSpeed: 0.35,
+    diveSpeed: 0.45,
+    crashThreshold: 0.25,
+    description: 'Время: 4 мин • Целей: 3 • Зона захвата: широкая'
+  },
+  medium: {
+    name: '🟡 СРЕДНИЙ',
+    color: '#ecc94b',
+    missionTime: 180,
+    targetCount: 5,
+    droneSpeed: 0.12,
+    droneDrag: 0.94,
+    captureConeRadius: 3,
+    captureTime: 1500,
+    climbSpeed: 0.30,
+    diveSpeed: 0.50,
+    crashThreshold: 0.18,
+    description: 'Время: 3 мин • Целей: 5 • Зона захвата: средняя'
+  },
+  hard: {
+    name: '🔴 СЛОЖНЫЙ',
+    color: '#e53e3e',
+    missionTime: 120,
+    targetCount: 7,
+    droneSpeed: 0.15,
+    droneDrag: 0.92,
+    captureConeRadius: 2,
+    captureTime: 1800,
+    climbSpeed: 0.25,
+    diveSpeed: 0.55,
+    crashThreshold: 0.12,
+    description: 'Время: 2 мин • Целей: 7 • Зона захвата: узкая'
+  }
 };
+
+let currentDifficulty = 'easy';
+let CONFIG = { ...DIFFICULTY_LEVELS.easy };
 
 const state = {
   keys: {},
@@ -270,8 +339,8 @@ const state = {
   pitch: 0,
   roll: 0,
   velocity: { x: 0, z: 0 },
-  altitude: CONFIG.START_ALTITUDE,
-  targetAltitude: CONFIG.START_ALTITUDE,
+  altitude: 50,
+  targetAltitude: 50,
   isCrashed: false,
   destroyedCount: 0,
   propAngle: 0,
@@ -283,12 +352,14 @@ const state = {
   thermalMode: false,
   currentTarget: null,
   captureStartTime: 0,
-  timeLeft: CONFIG.MISSION_TIME,
+  timeLeft: CONFIG.missionTime,
   timerInterval: null,
   missionStartTime: 0,
-  maxAltitude: CONFIG.START_ALTITUDE,
+  maxAltitude: 50,
   isRestarting: false,
-  isPaused: false
+  isPaused: false,
+  lastClimbSound: 0,
+  lastDiveSound: 0
 };
 
 let scene, camera, renderer, droneGroup;
@@ -299,6 +370,7 @@ let clouds = [];
 let gridHelper;
 let isLowEnd = false;
 let activeAnimations = [];
+let defeatTimeoutId = null;
 
 const sharedGeometries = {
   ring: new THREE.RingGeometry(0.1, 0.2, 32)
@@ -350,7 +422,27 @@ function showCopySuccess(btn){
 }
 document.getElementById('copyPhoneBtn').addEventListener('click', copyPhone);
 
+document.querySelectorAll('.difficulty-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('selected'));
+    this.classList.add('selected');
+    currentDifficulty = this.dataset.level;
+    CONFIG = { ...DIFFICULTY_LEVELS[currentDifficulty] };
+    updateDifficultyInfo();
+  });
+});
+
+function updateDifficultyInfo() {
+  const info = document.getElementById('difficultyInfo');
+  const level = DIFFICULTY_LEVELS[currentDifficulty];
+  info.innerHTML = `
+    <div class="level-name" style="color:${level.color};">${level.name}</div>
+    <div>${level.description}</div>
+  `;
+}
+
 async function startAudio(){
+  if(audioCtx && audioCtx.state === 'closed') return;
   if(audioCtx && audioCtx.state === 'suspended'){
     try{ await audioCtx.resume(); } catch(e){}
   }
@@ -367,9 +459,11 @@ async function startSimulator(){
   document.getElementById('intro-page').classList.add('hidden');
   setTimeout(() => {
     document.getElementById('simulator-page').classList.add('active');
-    if(!state.simulatorInitialized) initSimulator();
-    else fullGameRestart();
-    startMissionTimer();
+    if(!state.simulatorInitialized){
+      initSimulator();
+    } else {
+      fullGameRestart();
+    }
   }, 800);
 }
 
@@ -382,17 +476,20 @@ function exitToMenu(){
     clearInterval(state.timerInterval);
     state.timerInterval = null;
   }
+  clearTimeout(defeatTimeoutId);
   if(state.thermalMode){
     state.thermalMode = false;
     document.body.style.filter = '';
-    scene.fog.color.setHex(0x1e3a5f);
-    renderer.toneMappingExposure = 0.9;
+    if(scene) scene.fog.color.setHex(0x1e3a5f);
+    if(renderer) renderer.toneMappingExposure = 0.9;
   }
+  state.keys = {};
+  state.mouseDown = false;
   document.getElementById('victoryModal').classList.remove('show');
+  document.getElementById('defeatModal').classList.remove('show');
   document.getElementById('simulator-page').classList.remove('active');
   setTimeout(() => {
     document.getElementById('intro-page').classList.remove('hidden');
-    if(!state.animationId) animate(performance.now());
   }, 300);
   const music = document.getElementById('bg-music');
   music.pause();
@@ -407,6 +504,7 @@ function ensureAudio(){
     try{ audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
     catch(e){ return false; }
   }
+  if(audioCtx.state === 'closed') return false;
   if(audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
   return true;
 }
@@ -422,10 +520,10 @@ function playSound(freq, duration, type = 'square', volume = 0.08){
     gain.gain.exponentialRampToValueAtTime(0.001, now + duration);
     osc.connect(gain); gain.connect(audioCtx.destination);
     osc.start(now); osc.stop(now + duration);
-    setTimeout(() => {
+    osc.onended = () => {
       try { osc.disconnect(); } catch(e){}
       try { gain.disconnect(); } catch(e){}
-    }, (duration * 1000) + 50);
+    };
   } catch(e){}
 }
 
@@ -451,6 +549,11 @@ const SFX = {
     setTimeout(() => playSound(659, 0.15, 'sine', 0.12), 150);
     setTimeout(() => playSound(784, 0.15, 'sine', 0.12), 300);
     setTimeout(() => playSound(1047, 0.3, 'sine', 0.15), 450);
+  },
+  defeat: () => {
+    playSound(400, 0.2, 'sawtooth', 0.15);
+    setTimeout(() => playSound(300, 0.25, 'sawtooth', 0.15), 200);
+    setTimeout(() => playSound(200, 0.4, 'sawtooth', 0.15), 400);
   },
   thermal: () => {
     playSound(400, 0.1, 'sine', 0.08);
@@ -484,8 +587,9 @@ function showVictoryModal(){
   }
   state.velocity = { x: 0, z: 0 };
   
-  const timeUsed = CONFIG.MISSION_TIME - state.timeLeft;
+  const timeUsed = CONFIG.missionTime - state.timeLeft;
   document.getElementById('victoryHits').innerText = state.destroyedCount;
+  document.getElementById('victoryTotal').innerText = CONFIG.targetCount;
   document.getElementById('victoryAltitude').innerText = Math.round(state.maxAltitude);
   document.getElementById('victoryTime').innerText = timeUsed;
   document.getElementById('victoryModal').classList.add('show');
@@ -493,33 +597,81 @@ function showVictoryModal(){
   showNotification("✅ УРОК 4 ПРОЙДЕН! Мастер высотного полёта!", 'success');
 }
 
+function showDefeatModal(reason){
+  if(state.gameCompleted) return;
+  state.gameCompleted = true;
+  if(state.timerInterval){
+    clearInterval(state.timerInterval);
+    state.timerInterval = null;
+  }
+  state.velocity = { x: 0, z: 0 };
+  
+  const timeUsed = CONFIG.missionTime - state.timeLeft;
+  let msg = '';
+  if(reason === 'time') msg = 'Время вышло! Не все цели были уничтожены.';
+  else if(reason === 'crash') msg = 'Дрон разбился! Миссия прервана.';
+  else msg = 'Миссия провалена.';
+  
+  document.getElementById('defeatMessage').innerText = msg;
+  document.getElementById('defeatHits').innerText = state.destroyedCount;
+  document.getElementById('defeatTotal').innerText = CONFIG.targetCount;
+  document.getElementById('defeatAltitude').innerText = Math.round(state.maxAltitude);
+  document.getElementById('defeatTime').innerText = timeUsed;
+  document.getElementById('defeatModal').classList.add('show');
+  SFX.defeat();
+}
+
 function clearActiveAnimations(){
   activeAnimations.forEach(anim => { if(anim.cancel) anim.cancel(); });
   activeAnimations = [];
+}
+
+function disposeTargetGroup(group){
+  if(!group) return;
+  group.traverse(obj => {
+    if(obj.geometry) obj.geometry.dispose();
+    if(obj.material){
+      if(Array.isArray(obj.material)) obj.material.forEach(m => m.dispose());
+      else obj.material.dispose();
+    }
+  });
+  if(scene) scene.remove(group);
 }
 
 function fullGameRestart(){
   if(state.isRestarting) return;
   state.isRestarting = true;
   
+  clearTimeout(defeatTimeoutId);
+  CONFIG = { ...DIFFICULTY_LEVELS[currentDifficulty] };
+  
   document.getElementById('victoryModal').classList.remove('show');
+  document.getElementById('defeatModal').classList.remove('show');
   state.gameCompleted = false;
   state.destroyedCount = 0;
   state.isCrashed = false;
+  state.isPaused = false;
   state.velocity = { x: 0, z: 0 };
-  state.altitude = CONFIG.START_ALTITUDE;
-  state.targetAltitude = CONFIG.START_ALTITUDE;
-  state.maxAltitude = CONFIG.START_ALTITUDE;
+  state.altitude = 50;
+  state.targetAltitude = 50;
+  state.maxAltitude = 50;
   state.pitch = 0;
   state.roll = 0;
   state.currentTarget = null;
   state.captureStartTime = 0;
   state.thermalMode = false;
+  state.lastClimbSound = 0;
+  state.lastDiveSound = 0;
+  state.keys = {};
 
   document.getElementById('hits').innerText = '0';
-  document.getElementById('target-counter').innerText = '0';
+  document.getElementById('target-panel').innerHTML = `
+    🎯 ЦЕЛЕЙ УНИЧТОЖЕНО<br>
+    <span id="target-counter">0</span> / ${CONFIG.targetCount}<br>
+    <span style="font-size:11px;">🎯 Пикируйте в зону поражения</span>
+  `;
   document.getElementById('altitude-value').innerText = Math.round(state.altitude);
-  document.getElementById('altitude-fill').style.width = (state.altitude / CONFIG.MAX_ALTITUDE * 100) + '%';
+  document.getElementById('altitude-fill').style.width = (state.altitude / 100 * 100) + '%';
   document.getElementById('mode-text').innerText = 'ОБЫЧНЫЙ';
   document.getElementById('mode-text').style.color = '#b0d4e8';
   document.body.style.filter = '';
@@ -531,9 +683,11 @@ function fullGameRestart(){
     droneGroup.rotation.set(0, 0, 0);
   }
 
-  for(let t of targets){
-    if(t && typeof t.reset === 'function') t.reset();
-  }
+  targets.forEach(t => {
+    if(t.group) disposeTargetGroup(t.group);
+  });
+  targets = [];
+  setupTargets();
 
   trailParticles.forEach(p => {
     p.visible = false;
@@ -545,17 +699,20 @@ function fullGameRestart(){
   startMissionTimer();
   showNotification("🔄 Полёт перезапущен! Вперёд, СОКОЛ! 🦅", 'success');
   
+  if(!state.animationId && state.simulatorInitialized){
+    animate(performance.now());
+  }
+  
   setTimeout(() => { state.isRestarting = false; }, 500);
 }
 
 function resetExercise(){
-  if(state.gameCompleted){ fullGameRestart(); return; }
   fullGameRestart();
 }
 
 function startMissionTimer(){
   if(state.timerInterval) clearInterval(state.timerInterval);
-  state.timeLeft = CONFIG.MISSION_TIME;
+  state.timeLeft = CONFIG.missionTime;
   state.missionStartTime = Date.now();
   
   const timerElem = document.getElementById('mission-timer');
@@ -579,6 +736,8 @@ function startMissionTimer(){
       showNotification("⏰ ВРЕМЯ ВЫШЛО! Миссия провалена.", 'hit');
       state.isCrashed = true;
       SFX.crash();
+      clearTimeout(defeatTimeoutId);
+      defeatTimeoutId = setTimeout(() => showDefeatModal('time'), 800);
     }
   }, 1000);
 }
@@ -614,6 +773,7 @@ function initSimulator(){
     }
   }, 1500);
 
+  startMissionTimer();
   animate(performance.now());
   console.log('✅ Урок 4 запущен. Оператор СОКОЛ — в небо!');
 }
@@ -626,11 +786,11 @@ function setupScene(){
   camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, state.altitude + 8, 12);
 
-  isLowEnd = (navigator.hardwareConcurrency || 4) < CONFIG.LOW_END_CORES;
-  const pixelRatio = isLowEnd ? 1 : Math.min(window.devicePixelRatio, CONFIG.MAX_PIXEL_RATIO);
+  isLowEnd = (navigator.hardwareConcurrency || 4) < 4;
+  const pixelRatio = isLowEnd ? 1 : Math.min(window.devicePixelRatio, 2);
 
   try{
-    renderer = new THREE.WebGLRenderer({ antialias: !isLowEnd, alpha: true });
+    renderer = new THREE.WebGLRenderer({ antialias: !isLowEnd });
   } catch(e){
     document.getElementById('webgl-error').classList.add('show');
     throw e;
@@ -678,19 +838,18 @@ function setupFloor(){
   });
   const floorPlane = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), floorMat);
   floorPlane.rotation.x = -Math.PI / 2;
-  floorPlane.position.y = CONFIG.GROUND_Y;
+  floorPlane.position.y = 0;
   if(!isLowEnd) floorPlane.receiveShadow = true;
   scene.add(floorPlane);
 
   gridHelper = new THREE.GridHelper(40, 40, 0x87ceeb, 0x4682b4);
-  gridHelper.position.y = CONFIG.GROUND_Y + 0.01;
+  gridHelper.position.y = 0.01;
   gridHelper.material.transparent = true;
   gridHelper.material.opacity = 0.3;
   scene.add(gridHelper);
 }
 
 function setupEnvironment(){
-  // Горы на горизонте
   const mountainMat = new THREE.MeshStandardMaterial({
     color: 0x4a5568, roughness: 0.8, metalness: 0.2
   });
@@ -713,9 +872,11 @@ function setupClouds(){
     transparent: true, opacity: 0.8
   });
   
-  for(let i = 0; i < CONFIG.CLOUD_COUNT; i++){
+  const cloudCount = isLowEnd ? 6 : 15;
+  
+  for(let i = 0; i < cloudCount; i++){
     const cloud = new THREE.Group();
-    const puffCount = 3 + Math.floor(Math.random() * 3);
+    const puffCount = isLowEnd ? 2 : (3 + Math.floor(Math.random() * 3));
     
     for(let j = 0; j < puffCount; j++){
       const puff = new THREE.Mesh(
@@ -757,8 +918,8 @@ function setupDrone(){
   const wingMat = new THREE.MeshStandardMaterial({ color: 0x87ceeb, roughness: 0.4, metalness: 0.6 });
   const engineMat = new THREE.MeshStandardMaterial({ color: 0x4682b4, roughness: 0.3, metalness: 0.9 });
   const cockpitMat = new THREE.MeshStandardMaterial({ color: 0x1e3a5f, roughness: 0.1, metalness: 0.9, transparent: true, opacity: 0.7 });
+  const bladeMat = new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.2, metalness: 0.8 });
 
-  // Тело дрона-сокола (аэродинамическое)
   const body = new THREE.Mesh(
     new THREE.ConeGeometry(0.4, 2.5, 8),
     bodyMat
@@ -768,7 +929,6 @@ function setupDrone(){
   body.castShadow = true;
   droneGroup.add(body);
 
-  // Крылья (как у сокола)
   const leftWing = new THREE.Mesh(
     new THREE.BoxGeometry(2.5, 0.05, 0.8),
     wingMat
@@ -787,7 +947,6 @@ function setupDrone(){
   rightWing.castShadow = true;
   droneGroup.add(rightWing);
 
-  // Кабина пилота
   const cockpit = new THREE.Mesh(
     new THREE.SphereGeometry(0.3, 12, 8),
     cockpitMat
@@ -795,7 +954,6 @@ function setupDrone(){
   cockpit.position.set(0, 0.2, 0.5);
   droneGroup.add(cockpit);
 
-  // Двигатели (4 пропеллера)
   const armPositions = [
     { x: 0.8, z: 0.5, angle: -Math.PI / 4 },
     { x: -0.8, z: 0.5, angle: Math.PI / 4 },
@@ -826,7 +984,7 @@ function setupDrone(){
     for(let i = 0; i < 3; i++){
       const blade = new THREE.Mesh(
         new THREE.BoxGeometry(0.4, 0.02, 0.08),
-        new THREE.MeshStandardMaterial({ color: 0xffd700, roughness: 0.2, metalness: 0.8 })
+        bladeMat
       );
       blade.geometry.translate(0.2, 0, 0);
       blade.rotation.y = (Math.PI * 2 / 3) * i;
@@ -837,7 +995,6 @@ function setupDrone(){
     propellers.push(propGroup);
   });
 
-  // Свет от дрона
   const droneLight = new THREE.PointLight(0x87ceeb, 1, 8);
   droneLight.position.set(0, 0.2, 0);
   droneGroup.add(droneLight);
@@ -846,18 +1003,18 @@ function setupDrone(){
 }
 
 function setupTrail(){
-  for(let i = 0; i < CONFIG.TRAIL_LENGTH; i++){
+  for(let i = 0; i < 20; i++){
     const particle = new THREE.Mesh(
-      new THREE.SphereGeometry(0.1 * (1 - i / CONFIG.TRAIL_LENGTH), 6, 6),
+      new THREE.SphereGeometry(0.1 * (1 - i / 20), 6, 6),
       new THREE.MeshBasicMaterial({
         color: 0x87ceeb,
         transparent: true,
-        opacity: 0.5 * (1 - i / CONFIG.TRAIL_LENGTH)
+        opacity: 0.5 * (1 - i / 20)
       })
     );
     particle.visible = false;
     particle.userData.life = 0;
-    particle.userData.baseOpacity = 0.5 * (1 - i / CONFIG.TRAIL_LENGTH);
+    particle.userData.baseOpacity = 0.5 * (1 - i / 20);
     scene.add(particle);
     trailParticles.push(particle);
   }
@@ -872,7 +1029,6 @@ function setupTargets(){
       this.active = false;
       this.destroyed = false;
 
-      // База цели
       const baseMat = new THREE.MeshStandardMaterial({
         color: 0x8b4513, roughness: 0.7, metalness: 0.3
       });
@@ -884,7 +1040,6 @@ function setupTargets(){
       if(!isLowEnd) base.receiveShadow = true;
       this.group.add(base);
 
-      // Кольцо цели
       this.ring = new THREE.Mesh(
         new THREE.TorusGeometry(0.6, 0.08, 8, 24),
         new THREE.MeshStandardMaterial({
@@ -895,7 +1050,6 @@ function setupTargets(){
       this.ring.position.y = 0.6;
       this.group.add(this.ring);
 
-      // Центр цели
       const center = new THREE.Mesh(
         new THREE.CylinderGeometry(0.3, 0.3, 1.2, 16),
         new THREE.MeshStandardMaterial({
@@ -905,23 +1059,32 @@ function setupTargets(){
       center.position.y = 0.6;
       this.group.add(center);
 
-      // Свечение
       this.light = new THREE.PointLight(0xffd700, 1.5, 6);
       this.light.position.set(0, 0.8, 0);
       this.group.add(this.light);
 
-      // Зона поражения (визуальный конус)
       this.captureZone = new THREE.Mesh(
-        new THREE.ConeGeometry(2, 4, 16, 1, true),
+        new THREE.ConeGeometry(1, 15, 16, 1, true),
         new THREE.MeshBasicMaterial({
-          color: 0xffd700, transparent: true, opacity: 0.15, side: THREE.DoubleSide
+          color: 0xffd700, transparent: true, opacity: 0.08, 
+          side: THREE.DoubleSide, depthWrite: false
         })
       );
-      this.captureZone.position.y = 2;
+      this.captureZone.position.y = 7.5;
       this.captureZone.rotation.x = Math.PI;
       this.group.add(this.captureZone);
 
-      this.group.position.set(x, CONFIG.GROUND_Y, z);
+      const lineMat = new THREE.LineBasicMaterial({ 
+        color: 0xffd700, transparent: true, opacity: 0.3 
+      });
+      const lineGeo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, 0.5, 0),
+        new THREE.Vector3(0, 15, 0)
+      ]);
+      this.verticalLine = new THREE.Line(lineGeo, lineMat);
+      this.group.add(this.verticalLine);
+
+      this.group.position.set(x, 0, z);
       scene.add(this.group);
       this.reset();
     }
@@ -932,7 +1095,10 @@ function setupTargets(){
       const time = Date.now() * 0.001;
       this.ring.rotation.z += 0.02;
       this.light.intensity = 1 + Math.sin(time * 2) * 0.5;
-      this.captureZone.material.opacity = 0.15 + Math.sin(time) * 0.05;
+      this.captureZone.material.opacity = 0.08 + Math.sin(time) * 0.03;
+      
+      const scale = CONFIG.captureConeRadius;
+      this.captureZone.scale.set(scale, 1, scale);
     }
 
     destroy(){
@@ -947,7 +1113,7 @@ function setupTargets(){
       this.active = true;
       this.destroyed = false;
       this.group.visible = true;
-      this.group.position.set(this.startX, CONFIG.GROUND_Y, this.startZ);
+      this.group.position.set(this.startX, 0, this.startZ);
     }
 
     isInCaptureZone(dronePos, droneAltitude){
@@ -957,65 +1123,69 @@ function setupTargets(){
       const dz = dronePos.z - this.group.position.z;
       const horizontalDist = Math.sqrt(dx * dx + dz * dz);
       
-      // Проверяем, находится ли дрон в конусе над целью
-      const idealAltitude = horizontalDist * 2; // Угол конуса
-      const altitudeDiff = Math.abs(droneAltitude - idealAltitude);
+      const maxAltitudeForCapture = 15;
+      const minAltitudeForCapture = 2;
       
-      return horizontalDist < CONFIG.CAPTURE_CONE_RADIUS && altitudeDiff < 3;
+      if(droneAltitude < minAltitudeForCapture || droneAltitude > maxAltitudeForCapture){
+        return false;
+      }
+      
+      const coneRadius = (droneAltitude / maxAltitudeForCapture) * CONFIG.captureConeRadius;
+      
+      return horizontalDist < coneRadius;
     }
   }
 
   const startPos = [
-    [-8, -8], [8, -6], [-7, 8], [9, 7], [0, -10]
+    [-8, -8], [8, -6], [-7, 8], [9, 7], [0, -10], [-10, 0], [10, 0]
   ];
-  for(let i = 0; i < CONFIG.TARGET_COUNT; i++){
-    const pos = startPos[i];
+  for(let i = 0; i < CONFIG.targetCount; i++){
+    const pos = startPos[i % startPos.length];
     targets.push(new GroundTarget(scene, pos[0], pos[1]));
   }
 }
 
 function applyCollision(){
-  // Проверка границ по X и Z
   const pos = droneGroup.position;
   let collided = false;
   let impactForce = 0;
 
-  if(pos.x > CONFIG.LIMIT_X){
+  if(pos.x > 15){
     impactForce = Math.max(impactForce, Math.abs(state.velocity.x));
-    pos.x = CONFIG.LIMIT_X;
+    pos.x = 15;
     state.velocity.x = -Math.abs(state.velocity.x) * 0.5;
     collided = true;
   }
-  if(pos.x < CONFIG.MIN_X){
+  if(pos.x < -15){
     impactForce = Math.max(impactForce, Math.abs(state.velocity.x));
-    pos.x = CONFIG.MIN_X;
+    pos.x = -15;
     state.velocity.x = Math.abs(state.velocity.x) * 0.5;
     collided = true;
   }
-  if(pos.z > CONFIG.LIMIT_Z){
+  if(pos.z > 15){
     impactForce = Math.max(impactForce, Math.abs(state.velocity.z));
-    pos.z = CONFIG.LIMIT_Z;
+    pos.z = 15;
     state.velocity.z = -Math.abs(state.velocity.z) * 0.5;
     collided = true;
   }
-  if(pos.z < CONFIG.MIN_Z){
+  if(pos.z < -15){
     impactForce = Math.max(impactForce, Math.abs(state.velocity.z));
-    pos.z = CONFIG.MIN_Z;
+    pos.z = -15;
     state.velocity.z = Math.abs(state.velocity.z) * 0.5;
     collided = true;
   }
 
-  // Проверка столкновения с землёй
   if(state.altitude <= 0.5){
     state.altitude = 0.5;
-    if(state.velocity.y < -0.1){
-      impactForce = Math.abs(state.velocity.y) * 10;
-      state.velocity.y = 0;
+    const descentSpeed = state.targetAltitude - state.altitude;
+    if(descentSpeed < -0.1){
+      impactForce = Math.abs(descentSpeed) * 10;
+      state.targetAltitude = state.altitude;
       collided = true;
     }
   }
 
-  if(collided && impactForce > CONFIG.COLLISION_FORCE_THRESHOLD){
+  if(collided && impactForce > 0.05){
     triggerCollisionEffect(impactForce);
   }
 }
@@ -1025,10 +1195,12 @@ function triggerCollisionEffect(force){
   flash.classList.add('active');
   setTimeout(() => flash.classList.remove('active'), 150);
   
-  if(force >= CONFIG.CRASH_FORCE_THRESHOLD && !state.isCrashed){
+  if(force >= CONFIG.crashThreshold && !state.isCrashed){
     state.isCrashed = true;
     showNotification("💥 КРУШЕНИЕ! Дрон разбился!", 'hit');
     SFX.crash();
+    clearTimeout(defeatTimeoutId);
+    defeatTimeoutId = setTimeout(() => showDefeatModal('crash'), 1200);
   } else if(!state.isCrashed){
     SFX.collision();
     showNotification("⚠️ СТОЛКНОВЕНИЕ!", 'hit');
@@ -1037,6 +1209,7 @@ function triggerCollisionEffect(force){
 
 function handleKeyDown(e){
   state.keys[e.key] = true;
+  state.keys[e.code] = true;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key)) e.preventDefault();
   
   if((e.key === 't' || e.key === 'T' || e.key === 'е' || e.key === 'Е') && !state.isCrashed && !state.gameCompleted){
@@ -1045,7 +1218,10 @@ function handleKeyDown(e){
   ensureAudio();
 }
 
-function handleKeyUp(e){ state.keys[e.key] = false; }
+function handleKeyUp(e){ 
+  state.keys[e.key] = false; 
+  state.keys[e.code] = false;
+}
 
 function handleMouseDown(e){
   if(e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
@@ -1083,23 +1259,19 @@ function toggleThermalMode(){
 function handleMovement(){
   if(state.isCrashed || state.gameCompleted){
     if(state.gameCompleted) return;
-    state.altitude -= 0.2;
-    if(state.altitude <= 0){
-      state.altitude = 0;
-    }
+    state.altitude = Math.max(0, state.altitude - 0.2);
     droneGroup.position.y = state.altitude;
     return;
   }
 
-  // Горизонтальное движение
   let forward = 0, right = 0;
   if(state.keys.ArrowUp || state.keys.w || state.keys.W || state.keys['ц'] || state.keys['Ц']) forward = -1;
   if(state.keys.ArrowDown || state.keys.s || state.keys.S || state.keys['ы'] || state.keys['Ы']) forward = 1;
   if(state.keys.ArrowLeft || state.keys.a || state.keys.A || state.keys['ф'] || state.keys['Ф']) right = -1;
   if(state.keys.ArrowRight || state.keys.d || state.keys.D || state.keys['в'] || state.keys['В']) right = 1;
 
-  const targetPitch = forward * CONFIG.MAX_TILT;
-  const targetRoll = right * CONFIG.MAX_TILT;
+  const targetPitch = forward * 0.35;
+  const targetRoll = right * 0.35;
 
   state.pitch += (targetPitch - state.pitch) * 0.15;
   state.roll += (targetRoll - state.roll) * 0.15;
@@ -1107,40 +1279,41 @@ function handleMovement(){
   droneGroup.rotation.x = state.pitch;
   droneGroup.rotation.z = state.roll;
 
-  state.velocity.x += right * CONFIG.DRONE_SPEED * 0.09;
-  state.velocity.z += forward * CONFIG.DRONE_SPEED * 0.09;
-  state.velocity.x *= CONFIG.DRONE_DRAG;
-  state.velocity.z *= CONFIG.DRONE_DRAG;
+  state.velocity.x += right * CONFIG.droneSpeed * 0.09;
+  state.velocity.z += forward * CONFIG.droneSpeed * 0.09;
+  state.velocity.x *= CONFIG.droneDrag;
+  state.velocity.z *= CONFIG.droneDrag;
 
   droneGroup.position.x += state.velocity.x;
   droneGroup.position.z += state.velocity.z;
 
-  // Управление высотой
-  if(state.keys.q || state.keys.Q || state.keys.Shift){
-    state.targetAltitude = Math.min(CONFIG.MAX_ALTITUDE, state.altitude + CONFIG.CLIMB_SPEED);
-    if(Math.abs(state.altitude - state.targetAltitude) > 0.1){
+  const now = Date.now();
+  const isClimbing = state.keys.q || state.keys.Q || state.keys.ShiftLeft || state.keys.ShiftRight || state.keys.Shift;
+  const isDiving = state.keys.e || state.keys.E || state.keys.ControlLeft || state.keys.ControlRight || state.keys.Control;
+  
+  if(isClimbing && !isDiving){
+    state.targetAltitude = Math.min(100, state.altitude + CONFIG.climbSpeed);
+    if(now - state.lastClimbSound > 300){
       SFX.climb();
+      state.lastClimbSound = now;
     }
-  }
-  if(state.keys.e || state.keys.E || state.keys.Control){
-    state.targetAltitude = Math.max(CONFIG.MIN_ALTITUDE, state.altitude - CONFIG.DIVE_SPEED);
-    if(Math.abs(state.altitude - state.targetAltitude) > 0.1){
+  } else if(isDiving && !isClimbing){
+    state.targetAltitude = Math.max(5, state.altitude - CONFIG.diveSpeed);
+    if(now - state.lastDiveSound > 300){
       SFX.dive();
+      state.lastDiveSound = now;
     }
   }
 
-  // Плавное изменение высоты
   state.altitude += (state.targetAltitude - state.altitude) * 0.05;
   droneGroup.position.y = state.altitude;
 
-  // Обновление максимальной высоты
   if(state.altitude > state.maxAltitude){
     state.maxAltitude = state.altitude;
   }
 
-  // Обновление UI высоты
   document.getElementById('altitude-value').innerText = Math.round(state.altitude);
-  document.getElementById('altitude-fill').style.width = (state.altitude / CONFIG.MAX_ALTITUDE * 100) + '%';
+  document.getElementById('altitude-fill').style.width = (state.altitude / 100 * 100) + '%';
 
   applyCollision();
 }
@@ -1175,11 +1348,12 @@ function updateCapture(){
       SFX.beep();
     } else {
       const elapsed = Date.now() - state.captureStartTime;
-      if(elapsed >= CONFIG.CAPTURE_TIME){
+      if(elapsed >= CONFIG.captureTime){
         if(targetInRange.destroy()){
           state.destroyedCount++;
           document.getElementById('hits').innerText = state.destroyedCount;
-          document.getElementById('target-counter').innerText = state.destroyedCount;
+          const counter = document.getElementById('target-counter');
+          if(counter) counter.innerText = state.destroyedCount;
           
           createCaptureEffect(
             targetInRange.group.position.x,
@@ -1189,14 +1363,14 @@ function updateCapture(){
           
           SFX.lock();
           setTimeout(() => SFX.capture(), 100);
-          showNotification(`🎯 ЦЕЛЬ УНИЧТОЖЕНА! ${state.destroyedCount}/${CONFIG.TARGET_COUNT}`, 'success');
+          showNotification(`🎯 ЦЕЛЬ УНИЧТОЖЕНА! ${state.destroyedCount}/${CONFIG.targetCount}`, 'success');
 
           state.currentTarget = null;
           state.captureStartTime = 0;
           document.getElementById('crosshair-progress').classList.remove('active');
           document.getElementById('crosshair').classList.remove('locked');
 
-          if(state.destroyedCount >= CONFIG.TARGET_COUNT){
+          if(state.destroyedCount >= CONFIG.targetCount){
             setTimeout(() => showVictoryModal(), 500);
           }
         }
@@ -1224,9 +1398,15 @@ function createCaptureEffect(x, y, z){
 
   let frame = 0;
   let animationId;
+  const animEntry = { _ring: ring, _animId: null };
+  
   const animateRing = () => {
     if(state.gameCompleted || state.isCrashed){
-      scene.remove(ring); ringMat.dispose(); return;
+      scene.remove(ring); 
+      ringMat.dispose();
+      const idx = activeAnimations.indexOf(animEntry);
+      if(idx !== -1) activeAnimations.splice(idx, 1);
+      return;
     }
     frame++;
     const scale = 1 + frame * 0.3;
@@ -1234,18 +1414,23 @@ function createCaptureEffect(x, y, z){
     ring.material.opacity = 1 - frame / 30;
     if(frame < 30){
       animationId = requestAnimationFrame(animateRing);
+      animEntry._animId = animationId;
     } else {
-      scene.remove(ring); ringMat.dispose();
+      scene.remove(ring); 
+      ringMat.dispose();
+      const idx = activeAnimations.indexOf(animEntry);
+      if(idx !== -1) activeAnimations.splice(idx, 1);
     }
   };
   animateRing();
 
-  activeAnimations.push({
-    cancel: () => {
-      if(animationId) cancelAnimationFrame(animationId);
-      scene.remove(ring); ringMat.dispose();
-    }
-  });
+  animEntry.cancel = () => {
+    if(animationId) cancelAnimationFrame(animationId);
+    scene.remove(ring); 
+    if(ringMat) ringMat.dispose();
+  };
+  
+  activeAnimations.push(animEntry);
 }
 
 function updateClouds(){
@@ -1259,12 +1444,8 @@ function updateClouds(){
 
 function updateCamera(){
   const targetPos = droneGroup.position.clone();
-  const desiredPos = targetPos.clone().add(new THREE.Vector3(
-    CONFIG.CAMERA_OFFSET.x,
-    CONFIG.CAMERA_OFFSET.y,
-    CONFIG.CAMERA_OFFSET.z
-  ));
-  camera.position.lerp(desiredPos, CONFIG.CAMERA_LERP);
+  const desiredPos = targetPos.clone().add(new THREE.Vector3(0, 8, 12));
+  camera.position.lerp(desiredPos, 0.09);
   camera.lookAt(droneGroup.position);
 }
 
@@ -1284,7 +1465,7 @@ function updateTrail(){
     p.scale.set(1, 1, 1);
     p.userData.life = 30;
     p.material.opacity = p.userData.baseOpacity;
-    state.trailIndex = (state.trailIndex + 1) % CONFIG.TRAIL_LENGTH;
+    state.trailIndex = (state.trailIndex + 1) % 20;
   }
   for(let i = 0; i < trailParticles.length; i++){
     const p = trailParticles[i];
@@ -1292,7 +1473,8 @@ function updateTrail(){
       p.userData.life--;
       const t = p.userData.life / 30;
       p.material.opacity = p.userData.baseOpacity * t;
-      p.scale.multiplyScalar(0.97);
+      const newScale = p.scale.x * 0.97;
+      p.scale.set(newScale, newScale, newScale);
       if(p.userData.life <= 0){
         p.visible = false;
         p.scale.set(1, 1, 1);
@@ -1308,8 +1490,17 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 
+window.addEventListener('blur', () => {
+  state.isPaused = true;
+  state.keys = {};
+});
+
+window.addEventListener('focus', () => {
+  state.isPaused = false;
+});
+
 function animate(time){
-  if(state.isPaused){
+  if(state.isPaused || !state.simulatorInitialized){
     state.animationId = null;
     return;
   }
@@ -1349,13 +1540,16 @@ function setupEventListeners(){
   window.addEventListener('resize', handleResize);
   document.getElementById('resetDroneBtn').addEventListener('click', resetExercise);
   document.getElementById('fullRestartBtn').addEventListener('click', fullGameRestart);
+  document.getElementById('defeatRestartBtn').addEventListener('click', fullGameRestart);
   document.getElementById('exitMenuBtn').addEventListener('click', exitToMenu);
   document.getElementById('exitToMenuBtn').addEventListener('click', exitToMenu);
+  document.getElementById('defeatExitBtn').addEventListener('click', exitToMenu);
 }
 
 window.addEventListener('beforeunload', () => {
   if(state.animationId) cancelAnimationFrame(state.animationId);
   if(state.timerInterval) clearInterval(state.timerInterval);
+  clearTimeout(defeatTimeoutId);
   clearActiveAnimations();
   window.removeEventListener('keydown', handleKeyDown);
   window.removeEventListener('keyup', handleKeyUp);
